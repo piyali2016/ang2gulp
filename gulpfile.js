@@ -29,21 +29,17 @@ var typingFiles = [
   'typings/browser.d.ts'
 ];
 
+gulp.task('run', ['build'], function() {
+  return run('electron .').exec();
+});
+
+// clean the contents of the distribution directory
+
 gulp.task('serve', ['build'], function () {  
   browserSync.init(config.browserSync.dev);
   gulp.watch([config.sass.watch], ['sass']);
   gulp.watch(['app/**/*'], ['compile', 'copy:assets']).on('change', reload);
   gulp.watch(['public/index.html'], ['copy:index']).on('change', reload);
-});
-/*gulp.task('watch', function(){
-  livereload.listen();
-  gulp.watch([config.sass.watch], ['sass']);*/
-  //gulp.watch(['app/**/*'], ['compile', 'copy:assets']).on('change', reload);
-  /*gulp.watch(['public/index.html'], ['copy:index']).on('change', reload);
-})*/
-
-gulp.task('run', ['build'], function() {
-  return run('electron .').exec();
 });
 
 gulp.task('fonts', function () {  
@@ -103,4 +99,4 @@ gulp.task('build', function(cb) {
   runSequence('clean', ['compile', 'copy:libs','copy:assets', 'copy:index', 'sass'], cb);
 });
 
-gulp.task('default', ['build']); 
+gulp.task('default', ['build']);  
